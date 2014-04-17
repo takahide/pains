@@ -1,0 +1,16 @@
+/usr/bin/ruby2.0 extconf.rb 
+creating Makefile
+
+make "DESTDIR=" clean
+rm -f 
+rm -f parser.so  *.o  *.bak mkmf.log .*.time
+
+make "DESTDIR="
+gcc -I. -I/usr/include/ruby/2.0 -I/usr/include/ruby/2.0/ruby/backward -I/usr/include/ruby/2.0 -I.   -fPIC -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -mtune=generic -fPIC -O3 -Wall -m64 -o parser.o -c parser.c
+rm -f parser.so
+gcc -shared -o parser.so parser.o -L. -L/usr/lib64 -L. -fstack-protector -rdynamic -Wl,-export-dynamic  -m64  -L/usr/lib64/ruby/2.0 -lruby  -lpthread -lrt -ldl -lcrypt -lm   -lc
+
+make "DESTDIR=" install
+/bin/mkdir -p ./.gem.20140416-981-1dovrp8/json/ext
+exit > .RUBYARCHDIR.time
+/usr/bin/install -c -m 0755 parser.so ./.gem.20140416-981-1dovrp8/json/ext

@@ -5,3 +5,10 @@ pains_dev:
   username: takahide 
   password: taka0763
   encoding: utf8
+local_dev:
+  adapter: mysql2
+  database: pains
+  host: localhost
+  username: root 
+  password:
+  encoding: utf8

@@ -21,13 +21,26 @@ ActiveRecord::Base.establish_connection('pains_dev') if production?
 class Test < ActiveRecord::Base
 end
 
-get '/hi' do
+get '/' do
+  haml :index
 end
 
-get '/' do
-	content_type :html, :charset => 'utf-8'
-        test = Test.find(1)
-        
-	@str = test.test
-	haml :index
+get '/page1.html' do
+  content_type :html, :charset => 'utf-8'
+  test = Test.find(1)
+  @str = test.test
+  haml :page1
 end
+
+get %r{^/(.*)\.html$} do
+  haml :"#{ params[:captures].first }"
+end
+
+get '/css/style.css' do
+  scss :'scss/style'
+end
+
+get '/js/app.js' do
+  coffee :'coffee/app'
+end
+

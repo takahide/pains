@@ -13,12 +13,13 @@ configure :production do
   set :port, 80
 end
 
-#ActiveRecord::Base.configurations = YAML.load_file('config/database.yml')
-#ActiveRecord::Base.establish_connection('local_dev') if development?
-#ActiveRecord::Base.establish_connection('pains_dev') if production?
+ActiveRecord::Base.configurations = YAML.load_file('config/database.yml')
 
-#class Test < ActiveRecord::Base
-#end
+ActiveRecord::Base.establish_connection('local_dev') if development?
+ActiveRecord::Base.establish_connection('pains_dev') if production?
+
+class Player < ActiveRecord::Base
+end
 
 get '/' do
   haml :index
@@ -29,6 +30,15 @@ get '/page1.html' do
 #  test = Test.find(1)
 #  @str = test.test
   haml :page1
+end
+
+get '/player.html' do
+  content_type :html, :charset => 'utf-8'
+  player = Player.find(1)
+  @name = player.name
+  @first_name = player.first_name
+  @number = player.number
+  haml :player
 end
 
 get %r{^/(.*)\.html$} do
